@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bowlby+One&family=Permanent+Marker&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f5f1e8;
+  --paper: #eee5d3;
+  --ink: #0f0f0f;
+  --ink2: #222;
+  --red: #e63946;
+  --yellow: #ffd23f;
+  --blue: #1d4e89;
+  --green: #2a9d3f;
+  --orange: #f77f00;
+  --muted: #6b6557;
+  --fdisp: 'Anton', sans-serif;
+  --fdisp2: 'Archivo Black', sans-serif;
+  --fbowl: 'Bowlby One', sans-serif;
+  --fmark: 'Permanent Marker', cursive;
+  --fbody: 'DM Sans', sans-serif;
+  --fmono: 'JetBrains Mono', monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--fbody);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Paper grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: radial-gradient(circle at 20% 30%, rgba(0, 0, 0, 0.04) 0%, transparent 1%),
+    radial-gradient(circle at 70% 60%, rgba(0, 0, 0, 0.03) 0%, transparent 1%),
+    radial-gradient(circle at 40% 80%, rgba(0, 0, 0, 0.04) 0%, transparent 1%);
+  background-size: 7px 7px, 11px 11px, 5px 5px;
+  opacity: 0.6;
+}
+
+#root,
+main {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ink);
+  border-radius: 0;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-6px) rotate(var(--r, 0deg));
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes stamp {
+  0% {
+    transform: scale(1.4) rotate(-8deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(0.95) rotate(-3deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-5deg);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility classes */
+.font-anton { font-family: var(--fdisp); }
+.font-archivo { font-family: var(--fdisp2); }
+.font-bowlby { font-family: var(--fbowl); }
+.font-marker { font-family: var(--fmark); }
+.font-mono-jb { font-family: var(--fmono); }
+
+.halftone-ink {
+  background: radial-gradient(circle at center, var(--ink) 1.5px, transparent 2px) 0 0 / 14px 14px;
+}
+.halftone-red {
+  background: radial-gradient(circle at center, var(--red) 1.5px, transparent 2px) 0 0 / 14px 14px;
+}
+.halftone-yellow {
+  background: radial-gradient(circle at center, var(--yellow) 1.5px, transparent 2px) 0 0 / 14px 14px;
+}
+
+.stripes-ink {
+  background: repeating-linear-gradient(-45deg, var(--ink) 0 12px, transparent 12px 24px);
+}
+
+.shadow-hard { box-shadow: 5px 5px 0 var(--ink); }
+.shadow-hard-sm { box-shadow: 3px 3px 0 var(--ink); }
+.shadow-hard-lg { box-shadow: 8px 8px 0 var(--ink); }
+.shadow-hard-red { box-shadow: 5px 5px 0 var(--red); }
+.shadow-hard-red-lg { box-shadow: 8px 8px 0 var(--red); }
