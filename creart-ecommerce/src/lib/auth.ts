@@ -1,13 +1,8 @@
-import type { NextAuthOptions, User as NextAuthUser } from 'next-auth';
+import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import { connectDB } from '@/lib/db';
 import { User } from '@/models/User';
-
-// Extend NextAuth types so `role` is recognised everywhere
-interface UserWithRole extends NextAuthUser {
-  role: string;
-}
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
@@ -31,20 +26,21 @@ export const authOptions: NextAuthOptions = {
         const valid = await bcrypt.compare(credentials.password, user.passwordHash);
         if (!valid) return null;
 
-        return { id: user._id.toString(), email: user.email, role: user.role } satisfies UserWithRole;
+        // role viene del módulo extendido en src/types/next-auth.d.ts
+        return { id: user._id.toString(), email: user.email, role: user.role };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as UserWithRole).role;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user && token.role) {
-        (session.user as { role?: string }).role = token.role as string;
+      if (session.user) {
+        session.user.role = token.role;
       }
       return session;
     },
