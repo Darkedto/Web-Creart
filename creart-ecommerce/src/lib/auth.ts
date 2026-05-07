@@ -1,5 +1,4 @@
 import type { NextAuthOptions, User as NextAuthUser } from 'next-auth';
-import type { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import { connectDB } from '@/lib/db';
@@ -37,9 +36,9 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: UserWithRole | null }) {
-      if (user?.role) {
-        token.role = user.role;
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = (user as UserWithRole).role;
       }
       return token;
     },
